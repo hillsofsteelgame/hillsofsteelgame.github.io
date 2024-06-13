@@ -239,7 +239,7 @@ function loadAllGame(dataJson){
                     src="${img}"
                     alt="${item.title}"
                     class="w-full rounded-[0.625rem]"
-                    loading="lazy" style="height:230px"
+                    loading="lazy"
                   />
                 </a>
                 <div
