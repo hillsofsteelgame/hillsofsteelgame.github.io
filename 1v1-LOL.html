@@ -216,6 +216,37 @@
     <script src="/js/play.js?v=4"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        function sortByOrder(games) {
+            return games.sort((a, b) => b.order - a.order);
+        }
+        function loadListGame(dataListGame){
+            fetch(dataListGame,{
+                headers: {
+                    'Content-Type': 'application/json',
+                    },
+            }).then(response => response.json())
+            .then(data => {
+                listGame = sortByOrder(data);
+                for (var j=listGame.length-1; j>=0; j--) {
+                    var item = listGame[j];  
+                    var dataLogo = "/images/logo/"+item.img;
+                    var dataAlt = item.title;
+                    var dataHref = "/detail/"+item.slug+".html";
+                    var htmlItem = `
+                        <img src="${dataLogo}" alt="${dataAlt}" loading="lazy" width="94" height="94" decoding="async" class="sc-18mcksl-1 jQcWfv">
+                        <span class="sc-963fcq-0 ibRKmB global-cq-title">${dataAlt}</span>
+                    `;
+                    const e = document.createElement('a');
+                    e.className  = "sc-wr3rvk-0 jcoQuw sc-963fcq-3 djzSvC sc-al88rd-4";
+                    e.href = dataHref;
+                    e.innerHTML = htmlItem;
+                    document.getElementById('load_list_game').appendChild(e);
+                    
+                }
+                document.getElementById('load_list_game').scrollIntoView();
+            });
+
+        }
         $(function() {
             /* Load file header dùng chung */
             $("#load_header").load("/layout/header.html");
@@ -223,6 +254,8 @@
             $("#load_footer").load("/layout/footer.html");
             /* Load file svg dùng chung */
             $("#load_svg").load("/layout/svg-game.html");
+            /* Load list game */
+            loadListGame("/game/all.json");
         });
     </script>
   </body>
